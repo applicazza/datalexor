@@ -1,108 +1,78 @@
-# Datalexor
+# Custom Filter DSL for Datatables
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+In applications such as admin panels with numerous pages containing data tables, efficient data filtering is critical for usability. Without the ability to filter data by users dynamically, presenting large datasets loses its value.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+This project introduces a solution by implementing a **custom Domain-Specific Language (DSL)** that allows complex filtering logic to be passed from the frontend to the backend. This DSL is passed as a string and can be converted into a query that applies the necessary filtering conditions in a database.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/npm-workspaces-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## Problem
 
-## Run tasks
+When dealing with large datasets in an admin panel, filters need to be flexible. Users should be able to filter data based on different conditions, including **dynamic combinations of “AND” and “OR” clauses**. Moreover, the filter logic must be passed from the frontend to the backend and converted into a query that can be executed efficiently by the database.
 
-To run tasks with Nx use:
+## Solution
 
-```sh
-npx nx <target> <project-name>
-```
+This project proposes a **Custom DSL** for handling complex filters on the backend, which is inspired by SQL-like syntax. The filter expression is passed as a string from the frontend, where it can be parsed and converted into a Drizzle `where` clause to apply to a query.
 
-For example:
-
-```sh
-npx nx build myproject
-```
-
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
+### Example DSL
 
 ```
-npx nx release
+fieldA eq "foo" and fieldB contains "bar"
 ```
 
-Pass `--dry-run` to see what would happen without actually releasing the library.
 
-[Learn more about Nx release &raquo;](hhttps://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+In this example:
+- `fieldA eq "foo"` filters for records where the value of `fieldA` equals `"foo"`.
+- `fieldB contains "bar"` filters for records where `fieldB` contains the substring `"bar"`.
+- The `and` operator combines both filters, ensuring both conditions must be true.
 
-## Add new projects
+### Key Features
+- **Dynamic Filters**: Allows dynamic filtering logic such as combining multiple conditions using `and` and `or`.
+- **SQL-like Syntax**: Familiar SQL-like syntax for expressing filtering conditions.
+- **Simple Integration**: The filter string is passed as a query parameter from the frontend and can be easily parsed into a Drizzle `where` clause in the backend.
+  
+## Usage
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+1. **Frontend**: The frontend constructs a filter string using the custom DSL. This string is then sent to the backend as a query parameter.
 
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-```sh
-npx nx add @nx/react
+    ```
+    /api/data?filter=fieldA eq "foo" and fieldB contains "bar"
+    ```
+
+2. **Backend**: The backend receives the filter string, parses it, and converts it into a Drizzle `where` clause to be applied to the query.
+
+    ```javascript
+    const filterString = req.query.filter;
+    const data = await db
+      .select()
+      .from(users)
+      .where(
+        and(
+          eq(users.tenantId, 1),
+          toDrizzle(users, input, ['age', 'name'], { mappedAge: 'age' }),
+        ),
+      );
+    ```
+
+3. **Supported Operations**:
+    - `eq`: Match where the field equals a value.
+    - `ne`: Match where the field not equals a value.
+    - `gt`/`gte`: Match where the field is greater than/or equal a value.
+    - `lt`/`lte`: Match where the field is less than/or equal a value.
+    - `contains`: Match where a field contains a substring.
+    - `startsWith`: Match where a field starts with a substring.
+    - `endsWith`: Match where a field ends with a substring.
+    - **AND/OR Combinations**: Combine multiple filters using `and` and `or` operators.
+    
+    Example:
+    
+    ```
+    fieldA eq "value" or fieldB contains "part"
+    ```
+
+## Installation
+
+Install the package:
+
+```bash
+yarn add @datalexor/core @datalexor/drizzle
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
-
-```sh
-# Genenerate an app
-npx nx g @nx/react:app demo
-
-# Generate a library
-npx nx g @nx/react:lib some-lib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Set up CI!
-
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
-```
-
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Step 2
-
-Use the following command to configure a CI workflow for your workspace:
-
-```sh
-npx nx g ci-workflow
-```
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/npm-workspaces-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
