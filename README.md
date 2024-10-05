@@ -1,5 +1,9 @@
 # Custom Filter DSL for Datatables
 
+![NPM Version](https://img.shields.io/npm/v/%40datalexor%2Fcore?label=%40datalexor%2Fcore)
+ ![NPM Version](https://img.shields.io/npm/v/%40datalexor%2Fdrizzle?label=%40datalexor%2Fdrizzle)
+
+
 In applications such as admin panels with numerous pages containing data tables, efficient data filtering is critical for usability. Without the ability to filter data by users dynamically, presenting large datasets loses its value.
 
 This project introduces a solution by implementing a **custom Domain-Specific Language (DSL)** that allows complex filtering logic to be passed from the frontend to the backend. This DSL is passed as a string and can be converted into a query that applies the necessary filtering conditions in a database.
