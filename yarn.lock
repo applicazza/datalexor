@@ -1489,7 +1489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@datalexor/core@npm:0.0.1, @datalexor/core@workspace:packages/core":
+"@datalexor/core@npm:*, @datalexor/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@datalexor/core@workspace:packages/core"
   dependencies:
@@ -1501,10 +1501,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@datalexor/drizzle@workspace:packages/drizzle"
   dependencies:
-    "@datalexor/core": "npm:0.0.1"
+    "@datalexor/core": "npm:*"
     chevrotain: "npm:^11.0.3"
     drizzle-orm: "npm:^0.33.0"
   peerDependencies:
+    "@datalexor/core": "*"
     drizzle-orm: "*"
   languageName: unknown
   linkType: soft

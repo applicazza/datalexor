@@ -1,17 +1,18 @@
 {
   "name": "@datalexor/drizzle",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
-    "@datalexor/core": "0.0.1",
     "chevrotain": "^11.0.3"
   },
   "main": "./index.js",
   "module": "./index.mjs",
   "typings": "./index.d.ts",
   "devDependencies": {
+    "@datalexor/core": "*",
     "drizzle-orm": "^0.33.0"
   },
   "peerDependencies": {
+    "@datalexor/core": "*",
     "drizzle-orm": "*"
   },
   "repository": {
