@@ -13,5 +13,8 @@
   },
   "peerDependencies": {
     "drizzle-orm": "*"
+  },
+  "repository": {
+    "url": "https://github.com/applicazza/datalexor"
   }
 }
