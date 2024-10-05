@@ -1,7 +1,7 @@
 # Custom Filter DSL for Datatables
 
-![NPM Version](https://img.shields.io/npm/v/%40datalexor%2Fcore?label=%40datalexor%2Fcore)
- ![NPM Version](https://img.shields.io/npm/v/%40datalexor%2Fdrizzle?label=%40datalexor%2Fdrizzle)
+![NPM Version](https://img.shields.io/npm/v/%40datalexor%2Fcore?style=for-the-badge&label=%40datalexor%2Fcore&cacheSeconds=60&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40datalexor%2Fcore)      ![NPM Version](https://img.shields.io/npm/v/%40datalexor%2Fdrizzle?style=for-the-badge&label=%40datalexor%2Fdrizzle&cacheSeconds=60&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40datalexor%2Fcore)
+
 
 
 In applications such as admin panels with numerous pages containing data tables, efficient data filtering is critical for usability. Without the ability to filter data by users dynamically, presenting large datasets loses its value.
