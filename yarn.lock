@@ -1505,7 +1505,6 @@ __metadata:
     chevrotain: "npm:^11.0.3"
     drizzle-orm: "npm:^0.33.0"
   peerDependencies:
-    "@datalexor/core": "*"
     drizzle-orm: "*"
   languageName: unknown
   linkType: soft

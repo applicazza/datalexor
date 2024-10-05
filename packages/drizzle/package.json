@@ -2,6 +2,7 @@
   "name": "@datalexor/drizzle",
   "version": "0.1.0",
   "dependencies": {
+    "@datalexor/core": "*",
     "chevrotain": "^11.0.3"
   },
   "main": "./index.js",
@@ -12,7 +13,6 @@
     "drizzle-orm": "^0.33.0"
   },
   "peerDependencies": {
-    "@datalexor/core": "*",
     "drizzle-orm": "*"
   },
   "repository": {

@@ -16,6 +16,14 @@
         "default",
         "^default"
       ]
+    },
+    "nx-release-publish": {
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
     }
   },
   "release": {
