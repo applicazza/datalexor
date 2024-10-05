@@ -9,12 +9,18 @@
   "targetDefaults": {
     "@nx/vite:build": {
       "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "default",
+        "^default"
+      ]
     }
   },
   "release": {
     "version": {
+      "conventionalCommits": true,
       "preVersionCommand": "yarn dlx nx run-many -t build"
     }
   },
