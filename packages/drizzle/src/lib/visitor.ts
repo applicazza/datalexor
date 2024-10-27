@@ -107,9 +107,9 @@ class DrizzleVisitor extends BaseVisitor {
       case !!ctx.CONTAINS:
         return like(column, `%${value}%`);
       case !!ctx.STARTS_WITH:
-        return like(column, `%${value}`);
-      case !!ctx.ENDS_WITH:
         return like(column, `${value}%`);
+      case !!ctx.ENDS_WITH:
+        return like(column, `%${value}`);
     }
   }
 }
@@ -127,8 +127,8 @@ export const toDrizzle: <T extends Table>(
   filterableColumns,
   columnMappings,
 ) =>
-  visitorInstance.visit(parse(lex(input)), {
-    columnMappings,
-    filterableColumns,
-    table,
-  });
+    visitorInstance.visit(parse(lex(input)), {
+      columnMappings,
+      filterableColumns,
+      table,
+    });

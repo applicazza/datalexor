@@ -129,7 +129,7 @@ describe('DrizzleVisitor', () => {
       {
         "params": [
           1,
-          "%A",
+          "A%",
         ],
         "sql": "select "name", "age", "tenant_id" from "users" where ("users"."tenant_id" = ? and "users"."name" like ?)",
       }
@@ -149,7 +149,7 @@ describe('DrizzleVisitor', () => {
       {
         "params": [
           1,
-          "e%",
+          "%e",
         ],
         "sql": "select "name", "age", "tenant_id" from "users" where ("users"."tenant_id" = ? and "users"."name" like ?)",
       }
