@@ -1,6 +1,6 @@
 {
   "name": "@datalexor/drizzle",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "dependencies": {
     "@datalexor/core": "*",
     "chevrotain": "^11.0.3"
